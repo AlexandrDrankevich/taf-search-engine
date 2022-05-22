@@ -7,35 +7,29 @@ import org.openqa.selenium.WebElement;
 import ru.mail.go.ui.domain.SearchResultCard;
 import ru.mail.go.ui.pageobjects.SearchResultPage;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ResultProcessing {
+public class ResultProcessing extends SearchResultPage {
     protected static final Logger logger = LogManager.getLogger();
-    public ResultProcessing() {
-        createSearchResultCards();
-    }
 
-    List<WebElement> foundSearchResults = SearchResultPage.getListSearchResultElements();
-
-    List<SearchResultCard> cards;
+       private static List<SearchResultCard> cards=new ArrayList<>();
 
     public void createSearchResultCards() {
-        for (WebElement foundSearchResult : foundSearchResults) {
-            String title = foundSearchResult.findElement(By.cssSelector(SearchResultPage.getCardsNameLocator())).getText();
-            String url = foundSearchResult.findElement(By.cssSelector(SearchResultPage.getCardsUrlLinkLocator())).getText();
+        for (WebElement foundSearchResult : searchResultElements) {
+            String title = foundSearchResult.findElement(By.cssSelector(cardsNameLocator)).getText();
+            String url = foundSearchResult.findElement(By.cssSelector(cardsUrlLinkLocator)).getText();
             SearchResultCard searchResultCard = new SearchResultCard(title, url);
             cards.add(searchResultCard);
         }
         logger.info(cards);
     }
 
-    public boolean isSearchResultContainsTitle(String title){
-        return cards.stream().map(s->s.getTitle()).anyMatch(title::equals);
-    }
-    public boolean isSearchResultContainsUrl(String url){
-        return cards.stream().map(s->s.getUrl()).anyMatch(url::equals);
+    public boolean isSearchResultContainsTitle(String title) {
+        return cards.stream().map(s -> s.getTitle()).anyMatch(title::equals);
     }
 
-
-
+    public boolean isSearchResultContainsUrl(String url) {
+        return cards.stream().map(s -> s.getUrl()).anyMatch(url::equals);
+    }
 }
