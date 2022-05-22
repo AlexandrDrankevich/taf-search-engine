@@ -7,7 +7,9 @@ import io.cucumber.java.en.When;
 import ru.mail.go.ui.pageobjects.HomePage;
 
 public class SearchSteps {
-    private HomePage homePage=new HomePage();
+    private HomePage homePage = new HomePage();
+    private ResultProcessing resultProcessing =new ResultProcessing();
+
     @Given("the user open go.mail website")
     public void openMailWebsite() {
         homePage.openPage();
@@ -19,10 +21,11 @@ public class SearchSteps {
     }
 
     @Then("search result contains {string}")
-    public void verifySearchResultContainName(String cityName) {
+    public void verifySearchResultContainTitle(String title) {
+
     }
 
     @And("search result contains link {string}")
-    public void verifySearchResultContainsLink(String URL) {
+    public void verifySearchResultContainsUrl(String url) {
     }
 }
