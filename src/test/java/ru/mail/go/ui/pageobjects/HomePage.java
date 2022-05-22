@@ -20,19 +20,10 @@ public class HomePage extends AbstractPage {
         inputSearch.sendKeys(requestValue);
         return this;
     }
-    public HomePage clickButtonSearch(){
-       ((JavascriptExecutor) driver).executeScript("arguments[0].click();", buttonSearch);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
 
-    public HomePage sendSearchRequest(String cityName) {
+    public SearchResultPage sendSearchRequest(String cityName) {
         inputRequestValue(cityName);
-        clickButtonSearch();
-        return this;
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", buttonSearch);
+        return new SearchResultPage() ;
     }
 }
