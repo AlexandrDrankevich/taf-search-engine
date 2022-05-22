@@ -10,8 +10,9 @@ import ru.mail.go.ui.pageobjects.SearchResultPage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultProcessing extends SearchResultPage {
-    protected static final Logger logger = LogManager.getLogger();
+public class ResultProcessing  extends SearchResultPage{
+
+    private static final Logger logger = LogManager.getLogger();
 
        private static List<SearchResultCard> cards=new ArrayList<>();
 
@@ -22,10 +23,11 @@ public class ResultProcessing extends SearchResultPage {
             SearchResultCard searchResultCard = new SearchResultCard(title, url);
             cards.add(searchResultCard);
         }
-        logger.info(cards);
+        logger.info("Search Results: " +cards);
     }
 
     public boolean isSearchResultContainsTitle(String title) {
+        createSearchResultCards();
         return cards.stream().map(s -> s.getTitle()).anyMatch(title::equals);
     }
 

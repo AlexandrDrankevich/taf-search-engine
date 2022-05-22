@@ -18,18 +18,14 @@ public class HomePage extends AbstractPage {
 
     public HomePage inputRequestValue(String requestValue) {
         inputSearch.sendKeys(requestValue);
+        logger.info("Search request: "+requestValue);
         return this;
     }
 
     public SearchResultPage sendSearchRequest(String cityName) {
         inputRequestValue(cityName);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", buttonSearch);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return new SearchResultPage() ;
-
+        logger.info("Search Go Clicked");
+        return new SearchResultPage();
     }
 }
