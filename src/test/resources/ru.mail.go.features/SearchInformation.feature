@@ -8,4 +8,4 @@ Feature: As a user I want to get ability to search information about City
 
     Examples:
       | CityName | URL                                   |
-      | Минск  | https://ru.wikipedia.org/wiki/Минск |
+      | РњРёРЅСЃРє  | https://ru.wikipedia.org/wiki/РњРёРЅСЃРє |

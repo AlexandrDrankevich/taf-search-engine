@@ -23,6 +23,7 @@ dependencies {
     implementation "io.github.bonigarcia:webdrivermanager:4.1.0"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.0'
 }
 
 test {

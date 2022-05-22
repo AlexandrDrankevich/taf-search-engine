@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         monochrome = true,
         tags="@smoke",
         glue = "ru.mail.go.ui",
-        features = "classpath:ru/mail/go/features"
+        features = "classpath:ru.mail.go.features/"
 )
 public class CucumberTestRunner {
 }
