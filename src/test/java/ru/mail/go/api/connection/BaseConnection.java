@@ -66,7 +66,6 @@ public class BaseConnection {
             }
             resultCardsList.add(searchResultCard);
         }
-        System.out.println(resultCardsList);
         return resultCardsList;
     }
 
