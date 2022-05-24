@@ -15,8 +15,7 @@ public class GoMailTest extends AbstractTest {
         String responseUrl="ru.wikipedia.org›wiki/Минск";
         connection.sendGet(url);
         assertEquals(200,connection.getStatusCode());
-        assertTrue(connection.isResponseContainInformation(title));
-        assertTrue(connection.isResponseContainInformation(responseUrl));
-
+        assertTrue(connection.isResponseContainTitle(title));
+        assertTrue(connection.isResponseContainUrl(responseUrl));
     }
 }

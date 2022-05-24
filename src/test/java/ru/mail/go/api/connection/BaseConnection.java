@@ -19,23 +19,27 @@ import java.util.List;
 
 public class BaseConnection {
     private String url;
+    private Connection.Response response;
     protected static final Logger logger = LogManager.getLogger();
     private String resultCardsLocator = "//*[contains(@class,'Link-root SnippetResultTitle')]/ancestor::li";
     private String resultTitleClassName = "SnippetResultTitle-title result__title";
     private String resultUrlClassName = "Link-root SnippetResultInfo-url Link-orange Link-hoverable";
+    private List<SearchResultCard> resultCardsList;
 
     public void sendGet(String url) {
         this.url = url;
-    }
-
-    public int getStatusCode() {
-        Connection.Response response = null;
+        logger.info("GET " + url);
         try {
             response = Jsoup.connect(url).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response.statusCode();
+    }
+
+    public int getStatusCode() {
+        int statusCode = response.statusCode();
+        logger.info("Status Code " + statusCode);
+        return statusCode;
     }
 
     private Document getDocument() {
@@ -44,28 +48,39 @@ public class BaseConnection {
         options.addArguments("headless");
         options.addArguments("disabled-gpu");
         WebDriver driver = new ChromeDriver(options);
-        driver.get("https://go.mail.ru/search?q=Минск");
+        driver.get(url);
         String pageSource = driver.getPageSource();
         driver.quit();
         return Jsoup.parse(pageSource);
     }
 
-    private List<SearchResultCard> getListSearchResultCard() {
+    private List<SearchResultCard> getListSearchResultCard(String searchValue) {
         Elements elements = getDocument().selectXpath(resultCardsLocator);
-        List<SearchResultCard> resultCards = new ArrayList<>();
+        resultCardsList = new ArrayList<>();
         for (Element element : elements) {
             SearchResultCard searchResultCard = new SearchResultCard(
                     element.getElementsByClass(resultTitleClassName).text(),
-                    element.getElementsByClass(resultCardsLocator).text());
-            if (element.getElementsByClass(resultUrlClassName).text().contains("Минск — Википедия")) {
+                    element.getElementsByClass(resultUrlClassName).text());
+            if (element.getElementsByClass(resultTitleClassName).text().contains(searchValue)) {
                 logger.info(element);
             }
-            resultCards.add(searchResultCard);
+            resultCardsList.add(searchResultCard);
         }
-        return resultCards;
+        System.out.println(resultCardsList);
+        return resultCardsList;
     }
 
-    public boolean isResponseContainInformation(String information) {
-        return getListSearchResultCard().stream().anyMatch(s -> s.getTitle().contains(information));
+    public boolean isResponseContainTitle(String title) {
+        if (resultCardsList == null) {
+            resultCardsList = getListSearchResultCard(title);
+        }
+        return resultCardsList.stream().anyMatch(s -> s.getTitle().contains(title));
+    }
+
+    public boolean isResponseContainUrl(String url) {
+        if (resultCardsList == null) {
+            resultCardsList = getListSearchResultCard(url);
+        }
+        return resultCardsList.stream().anyMatch(s -> s.getUrl().contains(url));
     }
 }
