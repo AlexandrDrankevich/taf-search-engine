@@ -28,6 +28,7 @@ public class GoMailTest {
     WebDriver driver=new ChromeDriver(options);
     driver.get("https://go.mail.ru/search?q=Минск");
     String pageSource = driver.getPageSource();
+    driver.quit();
     Document doc =Jsoup.parse(pageSource);
    // System.out.println(doc.toString());
     Elements elements = doc.selectXpath("//*[contains(@class,'Link-root SnippetResultTitle')]/ancestor::li");
@@ -38,6 +39,11 @@ public class GoMailTest {
            byClass.getElementsByClass("SnippetResultTitle-title result__title").text(),
                 byClass.getElementsByClass("Link-root SnippetResultInfo-url Link-orange Link-hoverable").text()
         );
+        if( byClass.getElementsByClass("SnippetResultTitle-title result__title")
+                .text().contains("Минск — Википедия")){
+            System.out.println(byClass.toString());
+        }
+
         resultCards.add(searchResultCard);
 
     }
